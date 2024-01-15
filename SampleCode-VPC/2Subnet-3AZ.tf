@@ -219,3 +219,36 @@ resource "aws_route_table_association" "private_c" {
   subnet_id = aws_subnet.private_c.id
   route_table_id = aws_route_table.private_c.id
 }
+
+# OutPut
+
+## VPC
+output "aws_vpc" {
+  value = aws_vpc.main.id
+}
+
+## Public Subnet
+output "public_a" {
+  value = aws_subnet.public_a.id
+}
+
+output "public_b" {
+  value = aws_subnet.public_b.id
+}
+
+output "public_c" {
+  value = aws_subnet.public_c.id
+}
+
+## Private Subnet
+output "private_a" {
+  value = aws_subnet.private_a.id
+}
+
+output "private_b" {
+  value = aws_subnet.private_b.id
+}
+
+output "private_c" {
+  value = aws_subnet.private_c.id
+}
