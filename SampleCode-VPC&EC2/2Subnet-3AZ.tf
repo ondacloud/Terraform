@@ -235,7 +235,7 @@ resource "aws_instacne" "bastion" {
   vpc_security_group_ids = [aws_security_group.bastion.id]
   associate_public_ip_address = true
   iam_instance_profile = aws_iam_instance_profile.bastion.name
-  user_data = <<EOF
+  user_data = <<-EOF
   #!/bin/bash
   yum update -y
   ...
