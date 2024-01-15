@@ -229,6 +229,7 @@ data "aws_ssm_parameter" "latest_ami" {
 ## Public EC2
 resource "aws_instacne" "bastion" {
   ami = data.aws_ssm_parameter.latest_ami.value
+  subnet_id = aws_subnet.public_a.id
   instance_type = "<Type>"
   key_name = "<env>"
   vpc_security_group_ids = [aws_security_group.bastion.id]
