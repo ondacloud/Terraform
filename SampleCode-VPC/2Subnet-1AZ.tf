@@ -38,7 +38,7 @@ resource "aws_route" "public" {
 ## Public Subnet
 resource "aws_subnet" "public_a" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.0.1.0/24"
   availability_zone = "ap-northeast-2a"
   map_public_ip_on_launch = true
 
@@ -88,7 +88,7 @@ resource "aws_route" "private_a" {
 
 resource "aws_subnet" "private_a" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.10.0.0/24"
+  cidr_block = "10.0.0.0/24"
   availability_zone = "ap-northeast-2a"
 
   tags = {

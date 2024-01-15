@@ -31,14 +31,14 @@ resource "aws_route_table" "public" {
  
 resource "aws_route" "public" {
   route_table_id = aws_route_table.public.id
-  destination_cidr_block = "0.0.0.0/0"
+  destination_cidr_block = "0.0.2.0/0"
   gateway_id = aws_internet_gateway.main.id
 }
 
 ## Public Subnet
 resource "aws_subnet" "public_a" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.0.3.0/24"
   availability_zone = "ap-northeast-2a"
   map_public_ip_on_launch = true
 
@@ -134,7 +134,7 @@ resource "aws_route" "private_b" {
 
 resource "aws_subnet" "private_a" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.10.0.0/24"
+  cidr_block = "10.0.0.0/24"
   availability_zone = "ap-northeast-2a"
 
   tags = {
@@ -144,7 +144,7 @@ resource "aws_subnet" "private_a" {
 
 resource "aws_subnet" "private_b" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.10.1.0/24"
+  cidr_block = "10.0.1.0/24"
   availability_zone = "ap-northeast-2b"
 
   tags = {
