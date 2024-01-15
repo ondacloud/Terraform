@@ -1,0 +1,203 @@
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+
+  enable_dns_hostnames = true
+  enable_dns_support = true
+
+  tags = {
+    Name = "<env>-vpc"
+  }
+}
+
+# Public
+
+## Internet Gateway
+resource"aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "<env>-IGW"
+  }
+}
+
+## Route Table
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "<env>-public-rt"
+  }
+}
+ 
+resource "aws_route" "public" {
+  route_table_id = aws_route_table.public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.main.id
+}
+
+## Public Subnet
+resource "aws_subnet" "public_a" {
+  vpc_id = aws_vpc.main.id
+  cidr_block = "10.0.3.0/24"
+  availability_zone = "ap-northeast-2a"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "<env>-public-a"
+  }
+}
+
+## Attach Public Subnet in Route Table
+resource "aws_route_table_association" "public_a" {
+  subnet_id = aws_subnet.public_a.id
+  route_table_id = aws_route_table.public.id
+}
+
+# Private
+
+## Elastic IP
+resource "aws_eip" "private_a" {
+}
+
+## NAT Gateway
+resource "aws_nat_gateway" "private_a" {
+  depends_on = [aws_internet_gateway.main]
+
+  allocation_id = aws_eip.private_a.id
+  subnet_id = aws_subnet.public_a.id
+
+  tags = {
+    Name = "<env>-NGW-a"
+  }
+}
+
+## Route Table
+resource "aws_route_table" "private_a" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "<env>-private-a-rt"
+  }
+}
+
+resource "aws_route" "private_a" {
+  route_table_id = aws_route_table.private_a.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id = aws_nat_gateway.private_a.id
+}
+
+resource "aws_subnet" "private_a" {
+  vpc_id = aws_vpc.main.id
+  cidr_block = "10.0.0.0/24"
+  availability_zone = "ap-northeast-2a"
+
+  tags = {
+    Name = "<env>-private-a"
+  }
+}
+
+## Attach Private Subnet in Route Table
+resource "aws_route_table_association" "private_a" {
+  subnet_id = aws_subnet.private_a.id
+  route_table_id = aws_route_table.private_a.id
+}
+
+# EC2
+## AMI
+data "aws_ssm_parameter" "latest_ami" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-minimal-kernel-default-x86_64"
+}
+
+## Public EC2
+resource "aws_instacne" "bastion" {
+  ami = data.aws_ssm_parameter.latest_ami.value
+  subnet_id = aws_subnet.public_a.id
+  instance_type = "<Type>"
+  key_name = "<env>"
+  vpc_security_group_ids = [aws_security_group.bastion.id]
+  associate_public_ip_address = true
+  iam_instance_profile = aws_iam_instance_profile.bastion.name
+  user_data = <<-EOF
+  #!/bin/bash
+  yum update -y
+  ...
+  EOF
+  tags = {
+    Name = "<env>-bastion-ec2"
+  }
+}
+
+## Public Security Group
+resource "aws_security_group" "bastion" {
+  name = "<env>-EC2-SG"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port = "<Port>"
+    to_port = "<Port>"
+  }
+
+  egress {
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port = "0"
+    to_port = "0"
+  }
+ 
+    tags = {
+    Name = "<env>-EC2-SG"
+  }
+}
+
+## IAM
+resource "aws_iam_role" "bastion" {
+  name = "skills-role-bastion"
+  
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  managed_policy_arns = ["arn:aws:iam::aws:policy/AdministratorAccess"]
+}
+
+resource "aws_iam_instance_profile" "bastion" {
+  name = "<env>-profile-bastion"
+  role = aws_iam_role.bastion.name
+}
+
+# OutPut
+
+## VPC
+output "aws_vpc" {
+  value = aws_vpc.main.id
+}
+
+## Public Subnet
+output "public_a" {
+  value = aws_subnet.public_a.id
+}
+
+## Private Subnet
+output "private_a" {
+  value = aws_subnet.private_a.id
+}
+
+output "bastion" {
+  value = aws_instacne.bastion.id
+}
+
+output "bastion-sg" {
+  value = aws_security_group.bastion.id
+}
