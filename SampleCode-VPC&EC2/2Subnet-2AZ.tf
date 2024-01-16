@@ -201,8 +201,8 @@ resource "aws_security_group" "bastion" {
   egress {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    from_port = "0"
-    to_port = "0"
+    from_port = "<Port>"
+    to_port = "<Port>"
   }
  
     tags = {
