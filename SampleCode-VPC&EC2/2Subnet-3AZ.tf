@@ -271,7 +271,7 @@ resource "aws_security_group" "bastion" {
 
 ## IAM
 resource "aws_iam_role" "bastion" {
-  name = "skills-role-bastion"
+  name = "<env>-role-bastion"
   
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
