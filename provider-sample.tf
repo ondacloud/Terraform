@@ -6,7 +6,7 @@ provider "aws" {
 
 # aws access key
 provider "aws" {
+  access_key = "<access_key>"
+  secret_key = "<secret_key>"
   region = "ap-northeast-2"
-  access_key = "<acacess key>"
-  secret_key = "<secret key>"
 }
