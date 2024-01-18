@@ -19,3 +19,7 @@ resource "aws_iam_role" "test_role" {
     Name = "<env>-role"
   }
 }
+
+output "iam-role" {
+  value = aws_iam_role.role.name
+}

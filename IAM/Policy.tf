@@ -16,3 +16,7 @@ resource "aws_iam_policy" "policy" {
     ]
   })
 }
+
+output "iam-policy" {
+  value = aws_iam_policy.policy.name
+}
