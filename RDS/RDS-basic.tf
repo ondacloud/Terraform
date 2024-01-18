@@ -1,6 +1,6 @@
 resource "aws_security_group" "db" {
     name        = "<env>-EC2-SG"
-    description = "Allow database traffic"
+    description = "<env>-EC2-SG"
     vpc_id      = aws_vpc.vpc.id
 
     ingress {
