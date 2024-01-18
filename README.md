@@ -10,6 +10,11 @@ terraform apply
 terraform destroy
 ```
 
+## Commit Setting
+```
+terraform init
+```
+
 ## Check Code
 ```
 terraform plan
