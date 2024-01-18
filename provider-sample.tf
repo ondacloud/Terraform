@@ -1,6 +1,6 @@
 # aws configure --profile Setting
 provider "aws" {
-  region = "ap-northeast-2"
+  region = "<region>"
   profile = "<Profile>"
 }
 
@@ -8,5 +8,5 @@ provider "aws" {
 provider "aws" {
   access_key = "<Access_Key>"
   secret_key = "<Secret_Key>"
-  region = "ap-northeast-2"
+  region = "<region>"
 }
