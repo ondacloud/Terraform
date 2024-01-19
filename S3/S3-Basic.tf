@@ -7,5 +7,5 @@ resource "aws_s3_bucket" "s3" {
 }
 
 output "s3" {
-    value = aws_s3_bucket.s3.value
+    value = aws_s3_bucket.s3.id
 }
