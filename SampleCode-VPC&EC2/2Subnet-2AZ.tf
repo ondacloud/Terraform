@@ -168,7 +168,7 @@ data "aws_ssm_parameter" "latest_ami" {
 }
 
 ## Public EC2
-resource "aws_instacne" "bastion" {
+resource "aws_instance" "bastion" {
   ami = data.aws_ssm_parameter.latest_ami.value
   subnet_id = aws_subnet.public_a.id
   instance_type = "<Type>"
@@ -262,7 +262,7 @@ output "private_b" {
 }
 
 output "bastion" {
-  value = aws_instacne.bastion.id
+  value = aws_instance.bastion.id
 }
 
 output "bastion-sg" {
