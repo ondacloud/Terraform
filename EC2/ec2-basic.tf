@@ -3,7 +3,7 @@ resource "aws_instance" "bastion" {
   ami = data.aws_ssm_parameter.latest_ami.value
   subnet_id = aws_subnet.public_a.id
   instance_type = "<Type>"
-  key_name = "<env>"
+  key_name = aws_key_pair.keypair.key_name
   vpc_security_group_ids = [aws_security_group.bastion.id]
   associate_public_ip_address = true
   iam_instance_profile = aws_iam_instance_profile.bastion.name
