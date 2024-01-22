@@ -1,7 +1,7 @@
 resource "aws_security_group" "db" {
     name        = "<env>-EC2-SG"
     description = "<env>-EC2-SG"
-    vpc_id      = aws_vpc.vpc.id
+    vpc_id      = aws_vpc.main.id
 
     ingress {
         protocol = "tcp"
