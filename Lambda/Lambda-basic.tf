@@ -18,7 +18,7 @@ resource "aws_iam_role" "lambda" {
 
 data "archive_file" "lambda" {
   type        = "zip"
-  source_file = "lambda.js"
+  source_file = "lambda_function.py"
   output_path = "lambda_function_payload.zip"
 }
 
@@ -26,7 +26,7 @@ resource "aws_lambda_function" "lambda" {
     filename = "lambda_function_payload.zip"
     function_name = "<env>-function"
     role = aws_iam_role.lambda.arn
-    handler = index.test
+    handler = "lambda_function.lambda_handler"
 
     source_code_hash = data.archive_file.lambda.output_base64sha256
     
