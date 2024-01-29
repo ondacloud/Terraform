@@ -1,9 +1,11 @@
 resource "aws_dynamodb_table" "dynamodb" {
     name = "<dynamodb>"
-    billing_mode   = "PAY_PER_REQUEST" # PAY_PER_REQUEST or PROVISIONED
+    billing_mode   = "PROVISIONED"
+    read_capacity  = "<Number>"
+    write_capacity = "<Number>"
     hash_key = "<hash_key>"
     # range_key = "<range_key>"
-    
+ 
     # attribute {
     #     name = "<Name>"
     #     type = "S"
