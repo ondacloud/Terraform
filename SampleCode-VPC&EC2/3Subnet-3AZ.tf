@@ -308,7 +308,7 @@ resource "tls_private_key" "rsa" {
 }
 
 resource "aws_key_pair" "keypair" {
-  key_name = aws_key_pair.keypair.key_name
+  key_name = "<env>"
   public_key = tls_private_key.rsa.public_key_openssh
 }
 
