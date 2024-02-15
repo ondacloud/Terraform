@@ -27,6 +27,7 @@ resource "aws_lambda_function" "lambda" {
     function_name = "<env>-function"
     role = aws_iam_role.lambda.arn
     handler = "lambda_function.lambda_handler"
+    timeout = "<number>"
 
     source_code_hash = data.archive_file.lambda.output_base64sha256
     

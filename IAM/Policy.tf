@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "policy" {
-  name = "<env>policy"
+  name = "<env>-policy"
   path = "/"
   description = "<env>-policy"
 
