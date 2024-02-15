@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "assume_role" {
 
 resource "aws_iam_role" "lambda" {
     name = "<env>-role"
-    assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+    assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
 data "archive_file" "lambda" {
