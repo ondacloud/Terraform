@@ -5,13 +5,13 @@ resource "aws_kms_key" "kms" {
     # multi_region = ture # Default False
 
   tags = {
-    Name = "wsi-kms"
+    Name = "<env>-kms"
   }
 }
 
 resource "aws_kms_alias" "kms" {
     target_key_id = aws_kms_key.kms.key_id
-    name = "alias/wsi-kms"
+    name = "alias/<env>-kms"
 }
 
 output "kms_id" {
