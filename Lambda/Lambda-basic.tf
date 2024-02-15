@@ -34,5 +34,5 @@ resource "aws_lambda_function" "lambda" {
 }
 
 output "lambda" {
-    value = aws_lambda_function.lambda.value
+    value = aws_lambda_function.lambda.arn
 }
