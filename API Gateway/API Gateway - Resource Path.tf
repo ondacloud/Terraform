@@ -32,7 +32,7 @@ resource "aws_api_gateway_integration" "api_GET" {
   rest_api_id = aws_api_gateway_rest_api.apigw.id
   integration_http_method = "GET"
   type = "AWS"
-  uri = aws_lambda_function.lambda.invoke_arn
+  uri = "<arn>"
   credentials = aws_iam_role.apigw.arn
 }
 
@@ -42,7 +42,7 @@ resource "aws_api_gateway_integration" "api_POST" {
   rest_api_id = aws_api_gateway_rest_api.apigw.id
   integration_http_method = "POST"
   type = "AWS"
-  uri = aws_lambda_function.lambda.invoke_arn
+  uri = "<arn>"
   credentials = aws_iam_role.apigw.arn
 
   request_templates = {
@@ -104,42 +104,11 @@ resource "aws_api_gateway_method_response" "apigw_response_POST" {
   }
 }
 
-# API Gateway Permission for Lambda
-resource "aws_lambda_permission" "apigw_lambda" {
-  statement_id = "AllowExecutionFromAPIGateway"
-  action = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda.function_name
-  principal = "apigateway.amazonaws.com"
-
-  source_arn = "${aws_api_gateway_rest_api.apigw.execution_arn}/*/*"
-}
-
 # Deploy Stage
 resource "aws_api_gateway_deployment" "apigw" {
   depends_on = [aws_api_gateway_integration.api_GET, aws_api_gateway_integration.api_POST]
   rest_api_id = aws_api_gateway_rest_api.apigw.id
   stage_name = "<stage>"
-}
-
-# IAM
-resource "aws_iam_role" "apigw" {
-  name = "apigw-role"
-  
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid = ""
-        Principal = {
-          Service = "apigateway.amazonaws.com"
-        }
-      }
-    ]
-  })
-
-  managed_policy_arns = ["arn:aws:iam::aws:policy/AWSLambda_FullAccess"]
 }
 
 output "apigw" {
