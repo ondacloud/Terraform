@@ -212,19 +212,6 @@ resource "aws_route_table_association" "product_b" {
   route_table_id = aws_route_table.product_b.id
 }
 
-
-## Attach Private Subnet in Route Table
-resource "aws_route_table_association" "private_a" {
-  subnet_id = aws_subnet.private_a.id
-  route_table_id = aws_route_table.private_a.id
-}
-
-resource "aws_route_table_association" "private_b" {
-  subnet_id = aws_subnet.private_b.id
-  route_table_id = aws_route_table.private_b.id
-}
-
-
 # EC2
 ## AMI
 data "aws_ssm_parameter" "latest_ami" {
