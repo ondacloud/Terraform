@@ -38,7 +38,7 @@ resource "aws_route" "public" {
 ## Public Subnet
 resource "aws_subnet" "public_a" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.3.0/24"
+  cidr_block = "10.0.2.0/24"
   availability_zone = "ap-northeast-2a"
   map_public_ip_on_launch = true
 
@@ -49,7 +49,7 @@ resource "aws_subnet" "public_a" {
 
 resource "aws_subnet" "public_b" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.4.0/24"
+  cidr_block = "10.0.3.0/24"
   availability_zone = "ap-northeast-2b"
   map_public_ip_on_launch = true
 
@@ -183,7 +183,7 @@ resource "aws_route_table" "product_b" {
 ## Product Subnet
 resource "aws_subnet" "product_a" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.5.0/24"
+  cidr_block = "10.0.4.0/24"
   availability_zone = "ap-northeast-2a"
 
   tags = {
@@ -193,7 +193,7 @@ resource "aws_subnet" "product_a" {
 
 resource "aws_subnet" "product_b" {
   vpc_id = aws_vpc.main.id
-  cidr_block = "10.0.6.0/24"
+  cidr_block = "10.0.5.0/24"
   availability_zone = "ap-northeast-2b"
 
   tags = {
