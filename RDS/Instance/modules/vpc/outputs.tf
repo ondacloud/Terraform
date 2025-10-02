@@ -85,3 +85,7 @@ output "protect_subnet_azs" {
 output "inspect_subnet_azs" {
   value = values(try({ for k, s in aws_subnet.this : k => s.availability_zone if s.type == "inspect" }, {}))
 }
+
+output "subnet_ids" {
+  value = {for sn in aws_subnet.this : sn.tags["Name"] => sn.id}
+}
