@@ -33,7 +33,7 @@ resource "aws_lambda_function" "this" {
   role = aws_iam_role.this.arn
   handler = var.handler
   timeout = var.timeout
-  source_code_hash = var.enable_upload_zip ? data.archive_file.this.output_base64sha256 : filebase64sha256("${path.module}/../../src${var.output_file_path}") 
+  source_code_hash = var.enable_upload_zip ? filebase64sha256("${path.module}/../../src${var.output_file_path}") : data.archive_file.this.output_base64sha256 
   runtime = var.runtime
   publish = var.publish
 
