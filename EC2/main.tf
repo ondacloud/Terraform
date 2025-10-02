@@ -23,7 +23,7 @@ module "ec2" {
 
   vpc_id                = module.vpc[each.value.vpc_name].vpc_id
   subnet_id             = module.vpc[each.value.vpc_name].subnet_ids[each.value.subnet_name]
-  name                  = each.value.name
+  name                  = each.key
 
   security_group_name   = each.value.security_group_name
   instance_type         = each.value.instance_type

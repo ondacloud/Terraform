@@ -52,11 +52,10 @@ locals {
 
 locals {
   ec2s = {
-    bastion = {
+    "${local.parameter}-bastion" = {
       vpc_name                = "${local.parameter}-vpc"
       subnet_name             = "${local.parameter}-public-a"
       
-      name                    = "${local.parameter}-bastion"
       security_group_name     = "${local.parameter}-ec2-sg"
       instance_type           = "t3.micro"
       userdata                = "/bastion/userdata.sh"
