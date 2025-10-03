@@ -1,7 +1,3 @@
-variable "parameter" {
-  type = string
-}
-
 variable "az_override" {
   type = list(string)
 }

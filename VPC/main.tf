@@ -3,7 +3,6 @@ module "vpc" {
 
   for_each = local.vpcs
   
-  parameter    = local.parameter
   az_override  = local.az_override
   azs          = local.azs
   enable_igw   = each.value.enable_igw
