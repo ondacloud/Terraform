@@ -9,6 +9,10 @@ variable "name" {
   type  = string
 }
 
+variable "instance_tags" {
+  type = map(string)
+}
+
 variable "security_group_name" {
   type  = string
 }
@@ -23,12 +27,14 @@ variable "userdata" {
 
 variable "enable_public_ip" {
   type = bool
-  default = false
 }
 
 variable "enable_eip" {
   type    = bool
-  default = false
+}
+
+variable "eip_tags" {
+  type = map(string)
 }
 
 variable "ingress_ports" {
@@ -60,6 +66,10 @@ variable "keypair_name" {
 
 variable "keypair_file_path" {
   type  = string
+}
+
+variable "enable_create_iam_role" {
+  type    = bool
 }
 
 variable "iam_role_name" {

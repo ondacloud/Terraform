@@ -23,8 +23,7 @@ resource "aws_instance" "this" {
   key_name                    = var.enable_create_keypair ? aws_key_pair.this[0].key_name : var.keypair_name
   vpc_security_group_ids      = [aws_security_group.this.id]
   associate_public_ip_address = var.enable_public_ip
-  iam_instance_profile        = aws_iam_instance_profile.this.name
-
+  iam_instance_profile        = var.enable_create_iam_role ? aws_iam_instance_profile.this[0].name : null
   root_block_device {
     volume_size               = 10
     volume_type               = "gp3"
@@ -33,9 +32,7 @@ resource "aws_instance" "this" {
 
   user_data = file("${path.module}/../../src/${var.userdata}")
 
-  tags = {
-    Name = var.name
-  }
+  tags = var.instance_tags
 }
 
 resource "aws_security_group" "this" {
@@ -68,28 +65,31 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_iam_role" "this" {
-  name = var.iam_role_name
+  count = var.enable_create_iam_role ? 1 : 0
+
+  name               = var.iam_role_name
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [
-      {
-        Action    = "sts:AssumeRole"
-        Effect    = "Allow"
-        Principal = { Service = "ec2.amazonaws.com" }
-      }
-    ]
+    Statement = [{
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
+      Principal = { Service = "ec2.amazonaws.com" }
+    }]
   })
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
-  for_each   = toset(var.iam_policies)
-  role       = aws_iam_role.this.name
+  for_each = var.enable_create_iam_role ? toset(var.iam_policies) : []
+
+  role       = aws_iam_role.this[0].name
   policy_arn = each.value
 }
 
 resource "aws_iam_instance_profile" "this" {
+  count = var.enable_create_iam_role ? 1 : 0
+
   name = var.instance_profile_name
-  role = aws_iam_role.this.name
+  role = aws_iam_role.this[0].name
 }
 
 resource "aws_eip" "this" {
@@ -98,7 +98,5 @@ resource "aws_eip" "this" {
   instance                  = aws_instance.this.id
   associate_with_private_ip = aws_instance.this.private_ip
 
-  tags = {
-    Name = "${var.name}-eip"
-  }
+  tags = var.eip_tags
 }

@@ -32,18 +32,6 @@ locals {
           sn_cidrs     = ["10.0.2.0/24", "10.0.3.0/24"]
           rtb_name     = "${local.parameter}-private-$1-rtb"
           natgw_name   = "${local.parameter}-natgw-$1"
-        },
-        {
-          type         = "protect"
-          sn_name      = "${local.parameter}-protect-$1"
-          sn_cidrs     = ["10.0.4.0/24", "10.0.5.0/24"]
-          rtb_name     = "${local.parameter}-protect-rtb"
-        },
-        {
-          type         = "inspect"
-          sn_name      = "${local.parameter}-inspect-$1"
-          sn_cidrs     = ["10.0.6.0/24", "10.0.7.0/24"]
-          rtb_name     = "${local.parameter}-inspect-$1-rtb"
         }
       ]
     }
@@ -55,6 +43,10 @@ locals {
     "${local.parameter}-bastion" = {
       vpc_name                = "${local.parameter}-vpc"
       subnet_name             = "${local.parameter}-public-a"
+
+      instance_tags = {
+        Name = "${local.parameter}-bastion"
+      }
       
       security_group_name     = "${local.parameter}-ec2-sg"
       instance_type           = "t3.micro"
@@ -62,6 +54,9 @@ locals {
       
       enable_public_ip        = true
       enable_eip              = true
+      eip_tags = {
+        Name = "${local.parameter}-bastion-eip"
+      }
 
       ingress_ports = [
         { from_port = 22, to_port = 22, protocol = "tcp", cidr_block = "0.0.0.0/0"},
@@ -78,6 +73,7 @@ locals {
       keypair_name          = "${local.parameter}"
       keypair_file_path     = "${path.cwd}/${local.parameter}.pem"
 
+      enable_create_iam_role = false
       iam_role_name         = "${local.parameter}-bastion-role"
       instance_profile_name = "${local.parameter}-bastion-profile"
       iam_policies          = ["arn:aws:iam::aws:policy/AdministratorAccess"]
