@@ -1,8 +1,8 @@
-variable "role_name" {
+variable "user_name" {
   type = string
 }
 
-variable "role_tags" {
+variable "user_tags" {
   type    = map(string)
 }
 
@@ -51,5 +51,4 @@ variable "enable_managed_policy" {
 
 variable "managed_policy_arns" {
   type    = list(string)
-  default = []
 }

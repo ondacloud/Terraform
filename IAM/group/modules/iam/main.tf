@@ -1,13 +1,21 @@
-resource "aws_iam_role" "this" {
-  name               = var.role_name
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Action    = "sts:AssumeRole"
-      Effect    = "Allow"
-      Principal = { Service = "${var.service_name}.amazonaws.com" }
-    }]
-  })
+resource "aws_iam_group" "this" {
+  name = var.group_name
+  path = var.path
+}
+
+resource "aws_iam_user" "this" {
+  name = var.user_name
+
+  tags = var.user_tags
+}
+
+resource "aws_iam_user_group_membership" "this" {
+  count = var.enable_group ? 1 : 0
+  user = aws_iam_user.this.name
+
+  groups = [
+    aws_iam_group.this.name
+  ]
 }
 
 data "aws_iam_policy_document" "this" {
@@ -39,24 +47,24 @@ resource "aws_iam_policy" "this" {
   tags   = var.policy_tags
 }
 
-resource "aws_iam_role_policy" "inline" {
+resource "aws_iam_group_policy" "inline" {
   count  = var.enable_inline_policy ? 1 : 0
 
   name   = var.inline_policy_name
-  role   = aws_iam_role.this.name
+  group  = aws_iam_group.this.name
   policy = data.aws_iam_policy_document.this.json
 }
 
-resource "aws_iam_role_policy_attachment" "custom" {
+resource "aws_iam_group_policy_attachment" "test-custom" {
   count      = var.enable_custom_policy ? 1 : 0
-  
-  role       = aws_iam_role.this.name
+
+  group      = aws_iam_group.this.name
   policy_arn = aws_iam_policy.this[0].arn
 }
 
-resource "aws_iam_role_policy_attachment" "managed" {
+resource "aws_iam_group_policy_attachments_exclusive" "managed" {
   for_each = var.enable_managed_policy ? { for p in var.managed_policy_arns : p => p } : {}
 
-  role       = aws_iam_role.this.name
-  policy_arn = each.value
+  group_name  = aws_iam_group.this.name
+  policy_arns = toset([each.value])
 }

@@ -3,8 +3,11 @@ module "iam" {
 
   for_each = local.iams
 
-  role_name             = each.key
-  role_tags             = each.value.role_tags
+  group_name            = each.key
+  path                  = each.value.path
+  enable_group          = each.value.enable_group
+  user_name             = each.value.user_name
+  user_tags             = each.value.user_tags
   service_name          = each.value.service_name
   statements            = each.value.statements
   enable_inline_policy  = each.value.enable_inline_policy

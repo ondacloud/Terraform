@@ -1,10 +1,9 @@
 locals {
   iams = {
-    "iam-role" = {
-      role_tags = {Name = "iam-role"}
+    "iam-user" = {
+      user_tags = {Name = "iam-user"}
       service_name = "iam"
 
-      
       statements = [
         {
           effect    = "Allow"
@@ -14,15 +13,15 @@ locals {
         }
       ]
 
-      enable_inline_policy  = true
+      enable_inline_policy  = false
       inline_policy_name    = "iam-inline-policy"
 
-      enable_custom_policy = true
-      policy_name          = "iam-policy"
+      enable_custom_policy  = false
+      policy_name           = "iam-policy"
       policy_tags = {Name = "iam-policy"}
 
-      enable_managed_policy = true
-      managed_policy_arns   = ["arn:aws:iam::aws:policy/AdministratorAccess"]
+      enable_managed_policy  = false
+      managed_policy_arns    = ["arn:aws:iam::aws:policy/AdministratorAccess"]
     },
   }
 }
