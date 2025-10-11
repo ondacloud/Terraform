@@ -30,17 +30,14 @@ locals {
           sn_cidrs     = ["10.0.0.0/24", "10.0.1.0/24"]
           sn_tags      = {
             Name = "${local.parameter}-public-$1"
-            environment = "demo"
           }
 
           rtb_tags     = {
             Name = "${local.parameter}-public-rtb"
-            environment = "demo"
           }
 
           igw_tags     = {
             Name = "${local.parameter}-igw"
-            environment = "demo"
           }
         },
         {
@@ -48,17 +45,14 @@ locals {
           sn_cidrs     = ["10.0.2.0/24", "10.0.3.0/24"]
           sn_tags      = {
             Name = "${local.parameter}-private-$1"
-            environment = "demo"
           }
 
           rtb_tags     = {
             Name       = "${local.parameter}-private-$1-rtb"
-            environment = "demo"
           }
 
           natgw_tags   = {
             Name = "${local.parameter}-natgw-$1"
-            environment = "demo"
           }
         },
       ]
@@ -77,7 +71,7 @@ locals {
       }
       
       security_group_name     = "${local.parameter}-ec2-sg"
-      instance_type           = "t3.micro"
+      instance_type           = "t2.micro"
       userdata                = "/bastion/userdata.sh"
       
       enable_public_ip        = true
