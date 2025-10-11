@@ -4,20 +4,16 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames = true
   enable_dns_support = true
 
-  tags = {
-    Name = var.vpc_name
-  }
+  tags = var.vpc_tags
 }
 
 resource "aws_internet_gateway" "this" {
-  count = var.enable_igw ? 1 : 0
-
+  count  = var.enable_igw ? 1 : 0
   vpc_id = aws_vpc.this.id
 
-  tags = {
-    Name = local.types["public-0"].igw_name
-  }
+  tags = local.types["public-0"].igw_tags
 }
+
 
 resource "aws_eip" "this" {
   for_each = {
@@ -27,7 +23,7 @@ resource "aws_eip" "this" {
   }
 
   tags = {
-    Name = "${each.value.natgw_name}-eip"
+    Name = "${each.key}-eip"
   }
 }
 
@@ -43,9 +39,7 @@ resource "aws_nat_gateway" "this" {
   allocation_id = aws_eip.this[each.key].id
   subnet_id     = aws_subnet.this[each.key].id
 
-  tags = {
-    Name = each.value.natgw_name
-  }
+  tags = each.value.natgw_tags
 }
 
 resource "aws_subnet" "this" {
@@ -56,9 +50,7 @@ resource "aws_subnet" "this" {
   availability_zone       = each.value.az
   map_public_ip_on_launch = each.value.type == "public" ? true : false
 
-  tags = {
-    Name = each.value.sn_name
-  }
+  tags = each.value.sn_tags
 }
 
 resource "aws_route_table" "this" {
@@ -66,9 +58,7 @@ resource "aws_route_table" "this" {
 
   vpc_id = aws_vpc.this.id
 
-  tags = {
-    Name = each.value.rtb_name
-  }
+  tags = each.value.rtb_tags
 }
 
 resource "aws_route_table_association" "this" {
@@ -99,7 +89,5 @@ resource "aws_route" "this" {
 resource "aws_default_route_table" "this" {
   default_route_table_id = aws_vpc.this.default_route_table_id
 
-  tags = {
-    Name = var.default_rtb_name
-  }
+  tags = var.default_rtb_tags
 }
