@@ -95,7 +95,7 @@ locals {
       keypair_name          = "${local.parameter}"
       keypair_file_path     = "${path.cwd}/${local.parameter}.pem"
 
-      enable_create_iam_role = false
+      enable_create_iam_role = true
       iam_role_name         = "${local.parameter}-bastion-role"
       instance_profile_name = "${local.parameter}-bastion-profile"
       iam_policies          = ["arn:aws:iam::aws:policy/AdministratorAccess"]
