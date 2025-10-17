@@ -16,6 +16,8 @@ module "vpc" {
 }
 
 module "alb" {
+  depends_on = [ module.vpc ]
+  
   source = "./modules/alb"
 
   for_each = local.albs

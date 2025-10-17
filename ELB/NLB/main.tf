@@ -16,6 +16,8 @@ module "vpc" {
 }
 
 module "nlb" {
+  depends_on = [ module.vpc ]
+  
   source = "./modules/nlb"
 
   for_each = local.nlbs
