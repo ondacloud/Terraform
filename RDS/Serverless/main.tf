@@ -16,6 +16,8 @@ module "vpc" {
 }
 
 module "rds" {
+  depends_on = [ module.vpc ]
+
   source = "./modules/rds"
 
   for_each = local.rdss
