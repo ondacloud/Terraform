@@ -66,6 +66,9 @@ locals {
     "${local.parameter}-alb" = {
       vpc_name                = "${local.parameter}-vpc"
 
+      alb_tags = {
+        Name = "${local.parameter}-alb"
+      }
       internal                  = true
       port                      = 80
       protocol                  = "HTTP"
@@ -78,6 +81,9 @@ locals {
           protocol              = "HTTP"
           target_type           = "instance" # instance or ip or lambda or alb
           deregistration_delay  = 30
+          tags = {
+            Name = "${local.parameter}-alb-tg"
+          }
 
           health_check = {
             protocol            = "HTTP"
@@ -103,6 +109,9 @@ locals {
       ]
 
       security_group_name     = "${local.parameter}-alb-sg"
+      security_group_tags = {
+        Name = "${local.parameter}-alb-sg"
+      }
 
       ingress_ports = [
         { from_port = 80, to_port = 80, protocol = "tcp", cidr_block = "0.0.0.0/0"},

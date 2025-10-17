@@ -22,9 +22,7 @@ resource "aws_security_group" "this" {
     }
   }
 
-  tags = {
-    Name = var.security_group_name
-  }
+  tags = var.security_group_tags
 }
 
 resource "aws_lb" "this" {
@@ -34,9 +32,7 @@ resource "aws_lb" "this" {
   security_groups                  = [aws_security_group.this.id]
   subnets                          = var.subnet_ids
   
-  tags = {
-      Name = var.name
-  } 
+  tags = var.alb_tags
 }
 
 resource "aws_lb_target_group" "this" {
@@ -60,9 +56,7 @@ resource "aws_lb_target_group" "this" {
     matcher             = each.value.health_check.matcher
   }
 
-  tags = {
-    Name = each.value.name
-  }
+  tags =  each.value.tags
 }
 
 resource "aws_lb_listener" "this" {

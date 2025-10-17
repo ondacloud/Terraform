@@ -5,9 +5,7 @@ resource "aws_lb" "this" {
   load_balancer_type               = "network"
   subnets                          = var.subnet_ids
   
-  tags = {
-      Name = var.name
-  } 
+  tags = var.nlb_tags
 }
 
 resource "aws_lb_target_group" "this" {
@@ -31,9 +29,7 @@ resource "aws_lb_target_group" "this" {
     matcher             = each.value.health_check.protocol == "TCP" ? null : each.value.health_check.matcher
   }
 
-  tags = {
-    Name = each.value.name
-  }
+  tags = each.value.tags
 }
 
 resource "aws_lb_listener" "this" {

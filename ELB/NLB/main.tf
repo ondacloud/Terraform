@@ -24,6 +24,7 @@ module "nlb" {
   subnet_ids                       = each.value.internal ? module.vpc[each.value.vpc_name].private_subnet_ids : module.vpc[each.value.vpc_name].public_subnet_ids
 
   name                             = each.key
+  nlb_tags                         = each.value.nlb_tags
   internal                         = each.value.internal
   enable_cross_zone_load_balancing = each.value.enable_cross_zone_load_balancing
   port                             = each.value.port

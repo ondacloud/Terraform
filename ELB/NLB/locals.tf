@@ -65,6 +65,9 @@ locals {
     "${local.parameter}-nlb" = {
       vpc_name                  = "${local.parameter}-vpc"
 
+      nlb_tags = {
+        Name = "${local.parameter}-nlb"
+      }
       internal                         = true
       enable_cross_zone_load_balancing = true
       port                             = 80
@@ -78,6 +81,9 @@ locals {
           protocol              = "TCP"
           target_type           = "instance" # instance or ip or lambda or alb
           deregistration_delay  = 30
+          tags = {
+            Name = "${local.parameter}-nlb-tg"
+          }
 
           health_check = {
             protocol            = "TCP"

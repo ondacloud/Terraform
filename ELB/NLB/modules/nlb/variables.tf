@@ -10,6 +10,10 @@ variable "name" {
   type = string
 }
 
+variable "nlb_tags" {
+  type = map(string)
+}
+
 variable "internal" {
   type = bool
 }

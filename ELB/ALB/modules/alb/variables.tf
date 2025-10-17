@@ -10,6 +10,10 @@ variable "name" {
   type = string
 }
 
+variable "alb_tags" {
+  type = map(string)
+}
+
 variable "internal" {
   type = bool
 }
@@ -49,6 +53,10 @@ variable "target_groups" {
 
 variable "security_group_name" {
   type = string
+}
+
+variable "security_group_tags" {
+  type = map(string)
 }
 
 variable "ingress_ports" {

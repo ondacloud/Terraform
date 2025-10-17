@@ -24,6 +24,7 @@ module "alb" {
   subnet_ids                  = each.value.internal ? module.vpc[each.value.vpc_name].private_subnet_ids : module.vpc[each.value.vpc_name].public_subnet_ids
 
   name                        = each.key
+  alb_tags                    = each.value.alb_tags
   internal                    = each.value.internal
   port                        = each.value.port
   protocol                    = each.value.protocol
@@ -31,6 +32,7 @@ module "alb" {
   listener_target_groups      = each.value.listener_target_groups
 
   security_group_name         = each.value.security_group_name
+  security_group_tags         = each.value.security_group_tags
   ingress_ports               = each.value.ingress_ports
   egress_ports                = each.value.egress_ports
 
