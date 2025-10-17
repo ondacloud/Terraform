@@ -4,6 +4,7 @@ module "lambda" {
   for_each = local.lambdas
 
   name               = each.key
+  tags               = each.value.tags
   handler            = each.value.handler
   timeout            = each.value.timeout
   runtime            = each.value.runtime

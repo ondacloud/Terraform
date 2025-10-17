@@ -37,7 +37,5 @@ resource "aws_lambda_function" "this" {
   runtime = var.runtime
   publish = var.publish
 
-  tags = {
-    Name = var.name
-  }
+  tags = var.tags
 }

@@ -12,6 +12,10 @@ locals {
 locals {
   lambdas = {
     "${local.parameter}-function" = {
+      tags = {
+        Name = "${local.parameter}-function"
+      }
+
       enable_lambda_edge = false
       enable_upload_zip  = false
 
