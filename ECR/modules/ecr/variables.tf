@@ -2,6 +2,10 @@ variable "name" {
   type = string
 }
 
+variable "tags" {
+  type = map(string)
+}
+
 variable "image_tag_mutability" {
   type = string
 }

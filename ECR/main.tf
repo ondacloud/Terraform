@@ -4,6 +4,7 @@ module "kms" {
   for_each = local.kmss
 
   name                    = each.key
+  tags                    = each.value.tags
   alias_name              = each.value.alias_name
   key_usage               = each.value.key_usage
   deletion_window_in_days = each.value.deletion_window_in_days
@@ -15,6 +16,7 @@ module "ecr" {
   for_each = local.ecrs
 
   name                     = each.key
+  tags                     = each.value.tags
   image_tag_mutability     = each.value.image_tag_mutability
   force_delete             = each.value.force_delete
   scan_images_on_push      = each.value.scan_images_on_push

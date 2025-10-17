@@ -5,6 +5,10 @@ locals {
 locals {
   kmss = {
     "${local.parameter}/ecr/kms" = {
+      tags = {
+        Name = "${local.parameter}-ecr-kms"
+      }
+      
       alias_name              = "alias/${local.parameter}/ecr/kms"
       key_usage               = "ENCRYPT_DECRYPT"
       deletion_window_in_days = 7
@@ -15,6 +19,10 @@ locals {
 locals {
   ecrs = {
     "${local.parameter}-ecr" = {
+      tags = {
+        Name = "${local.parameter}-ecr"
+      }
+
       image_tag_mutability              = "IMMUTABLE" # IMMUTABLE or MUTABLE
       force_delete                      = true
       scan_images_on_push               = true
