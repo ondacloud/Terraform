@@ -44,7 +44,7 @@ resource "aws_lb_listener" "this" {
 }
 
 resource "aws_lb_target_group_attachment" "this" {
-  for_each = var.enable_target ? { for t in var.targets : t.target_name => t } : {}
+  for_each = var.enable_attach_target ? { for t in var.targets : t.target_name => t } : {}
 
   target_group_arn = aws_lb_target_group.this[each.value.target_group_name].arn
   target_id        = var.ec2_info[each.value.target_name]

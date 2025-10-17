@@ -38,7 +38,7 @@ module "alb" {
   ingress_ports               = each.value.ingress_ports
   egress_ports                = each.value.egress_ports
 
-  enable_target               = each.value.enable_target
+  enable_attach_target        = each.value.enable_attach_target
   targets                     = each.value.targets
   # ec2_info                    = {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id}
 }

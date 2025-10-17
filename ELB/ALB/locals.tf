@@ -98,7 +98,7 @@ locals {
         }
       ]
 
-      enable_target             = false
+      enable_attach_target      = false
       targets = [
         {
           type                  = "ec2"

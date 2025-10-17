@@ -55,7 +55,7 @@ variable "target_groups" {
   }))
 }
 
-variable "enable_target" {
+variable "enable_attach_target" {
   type = bool
 }
 

@@ -34,7 +34,7 @@ module "nlb" {
   target_groups                    = each.value.target_groups
   listener_target_groups           = each.value.listener_target_groups
 
-  enable_target                    = each.value.enable_target
+  enable_attach_target             = each.value.enable_attach_target
   targets                          = each.value.targets
   # ec2_info                         = {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id}
 }

@@ -77,7 +77,7 @@ variable "egress_ports" {
   }))
 }
 
-variable "enable_target" {
+variable "enable_attach_target" {
   type = bool
 }
 
