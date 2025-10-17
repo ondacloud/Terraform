@@ -99,7 +99,7 @@ locals {
         }
       ]
 
-      security_group_name             = "${local.parameter}-memcached-sg"
+      security_group_name             = "${local.parameter}-redis-sg"
 
       ingress_ports = [
         { from_port = 6379, to_port = 6379, protocol = "tcp", cidr_block = "0.0.0.0/0"},
