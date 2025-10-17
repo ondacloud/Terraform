@@ -89,6 +89,6 @@ output "inspect_subnet_azs" {
 output "subnet_ids" {
   value = {
     for k, sn in aws_subnet.this :
-    "${sn.tags["Name"]}-${sn.availability_zone}" => sn.id
+    "${sn.tags["Name"]}" => sn.id
   }
 }
