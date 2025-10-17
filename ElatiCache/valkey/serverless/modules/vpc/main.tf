@@ -1,4 +1,4 @@
-resource "aws_vpc" "this" {
+  resource "aws_vpc" "this" {
   cidr_block = var.vpc_cidr
   
   enable_dns_hostnames = true
@@ -19,7 +19,7 @@ resource "aws_eip" "this" {
   for_each = {
     for k, v in local.types :
     k => v
-    if v.type == "private" && var.enable_natgw
+    if v.type == "public" && var.enable_natgw
   }
 
   tags = {
@@ -33,13 +33,13 @@ resource "aws_nat_gateway" "this" {
   for_each = {
     for k, v in local.types :
     k => v
-    if v.type == "private" && var.enable_natgw
+    if v.type == "public" && var.enable_natgw
   }
 
   allocation_id = aws_eip.this[each.key].id
   subnet_id     = aws_subnet.this[each.key].id
 
-  tags = each.value.natgw_tags
+  tags = local.types["private-${substr(each.key, -1, 1)}"].natgw_tags
 }
 
 resource "aws_subnet" "this" {
@@ -83,7 +83,7 @@ resource "aws_route" "this" {
   destination_cidr_block = "0.0.0.0/0"
 
   gateway_id     = each.value.type == "public"  ? aws_internet_gateway.this[0].id : null
-  nat_gateway_id = each.value.type == "private" ? aws_nat_gateway.this[each.key].id : null
+  nat_gateway_id = each.value.type == "private" ? aws_nat_gateway.this["public-${substr(each.key, -1, 1)}"].id : null
 }
 
 resource "aws_default_route_table" "this" {

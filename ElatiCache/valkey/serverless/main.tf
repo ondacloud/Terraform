@@ -15,6 +15,8 @@ module "vpc" {
   types            = each.value.types
 }
 module "elaticache" {
+  depends_on = [ module.vpc ]
+  
   source = "./modules/elaticache"
 
   for_each = local.elaticaches

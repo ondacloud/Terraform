@@ -31,14 +31,6 @@ locals {
 }
 
 locals {
-  natgw_types = {
-    for k, v in local.types :
-    k => v
-    if v.type == "public" && v.natgw_tags != null && var.enable_natgw
-  }
-}
-
-locals {
   shared_rtb_types = ["public", "protect"]
 
   rtbs_to_create = merge(
