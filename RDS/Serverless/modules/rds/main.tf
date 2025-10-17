@@ -22,33 +22,32 @@ resource "aws_security_group" "this" {
     }
   }
 
-  tags = {
-    Name = var.security_group_name
-  }
+  tags = var.security_group_tags
 }
 
 resource "aws_db_subnet_group" "this" {
   name       = var.subnet_group_name
   subnet_ids = var.protect_subnet_ids
 
-  tags = {
-    Name = var.subnet_group_name
-  }
+  tags = var.subnet_group_tags
 }
 
 resource "aws_rds_cluster_parameter_group" "this" {
-  name        = var.cluster_parmeter_group_name
-  description = var.cluster_parmeter_group_name
-  family      = var.cluster_parmeter_group_family
+  name        = var.cluster_parameter_group_name
+  description = var.cluster_parameter_group_name
+  family      = var.cluster_parameter_group_family
 
-  parameter {
-    name  = "time_zone"
-    value = "Asia/Seoul"
+  dynamic "parameter" {
+    for_each = var.parameters
+
+    content {
+      name  = parameter.value.name
+      value = parameter.value.value
+    }
   }
 
-  tags = {
-    Name = var.cluster_parmeter_group_name
-  }
+
+  tags = var.cluster_parameter_group_tags
 }
 
 resource "aws_db_parameter_group" "this" {
@@ -56,9 +55,7 @@ resource "aws_db_parameter_group" "this" {
   description = var.parameter_group_name
   family      = var.parameter_group_family
 
-  tags = {
-    Name = var.parameter_group_name
-  }
+  tags = var.parameter_group_tags
 }
 
 resource "aws_rds_cluster" "this" {
@@ -86,9 +83,7 @@ resource "aws_rds_cluster" "this" {
   }
 
 
-  tags = {
-    Name = var.name
-  }
+  tags = var.rds_cluster_tags
 }
 
 resource "aws_rds_cluster_instance" "this" {
@@ -100,7 +95,8 @@ resource "aws_rds_cluster_instance" "this" {
   identifier              = "${var.instance_name}-${count.index}"
   engine                  = var.instance_engine
 
-  tags = {
-    Name = "${var.instance_name}-${count.index}"
-  }
+  tags = merge(
+    var.instance_tags,
+    {Name = "${var.instance_tags["Name"]}-${count.index}"}
+  )
 }

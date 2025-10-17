@@ -14,8 +14,16 @@ variable "name" {
   type = string
 }
 
+variable "rds_cluster_tags" {
+  type = map(string)
+}
+
 variable "instance_name" {
   type = string
+}
+
+variable "instance_tags" {
+  type = map(string)
 }
 
 variable "db_name" {
@@ -86,12 +94,25 @@ variable "subnet_group_name" {
   type = string
 }
 
-variable "cluster_parmeter_group_name" {
+variable "subnet_group_tags" {
+  type = map(string)
+}
+
+variable "cluster_parameter_group_name" {
   type = string
 }
 
-variable "cluster_parmeter_group_family" {
+variable "cluster_parameter_group_family" {
   type = string
+}
+
+variable "parameters" {
+  type  = list(map(string))
+  default = []
+}
+
+variable "cluster_parameter_group_tags" {
+  type = map(string)
 }
 
 variable "parameter_group_name" {
@@ -102,8 +123,16 @@ variable "parameter_group_family" {
   type = string
 }
 
+variable "parameter_group_tags" {
+  type = map(string)
+}
+
 variable "security_group_name" {
   type = string
+}
+
+variable "security_group_tags" {
+  type = map(string)
 }
 
 variable "ingress_ports" {

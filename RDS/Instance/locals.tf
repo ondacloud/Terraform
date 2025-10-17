@@ -73,8 +73,12 @@ locals {
 
 locals {
   rdss = {
-    "${local.parameter}-db-instatnce" = {
+    "${local.parameter}-db-instance" = {
       vpc_name                        = "${local.parameter}-vpc"
+
+      instance_tags = {
+        Name = "${local.parameter}-db-instance"
+      }
 
       db_name                         = "${local.parameter}"
       class                           = "db.t3.medium"
@@ -91,15 +95,27 @@ locals {
       publicly_accessible             = false
 
       subnet_group_name               = "${local.parameter}-db-sg"
+      subnet_group_tags               = {
+        Name = "${local.parameter}-db-sg"
+      }
 
       option_group_name               = "${local.parameter}-db-og"
       option_group_engine             = "mysql"
       option_group_engine_version     = "8.0"
+      option_group_tags               = {
+        Name = "${local.parameter}-db-og"
+      }
 
       parameter_group_name            = "${local.parameter}-db-pg"
       parameter_group_family          = "mysql8.0"
+      parameter_group_tags            = {
+        Name = "${local.parameter}-db-pg"
+      }
 
       security_group_name             = "${local.parameter}-rds-sg"
+      security_group_tags             = {
+        Name = "${local.parameter}-rds-sg"
+      }
 
       ingress_ports = [
         { from_port = 3306, to_port = 3306, protocol = "tcp", cidr_block = "0.0.0.0/0"},

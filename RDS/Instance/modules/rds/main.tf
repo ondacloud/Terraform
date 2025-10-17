@@ -22,18 +22,14 @@ resource "aws_security_group" "this" {
     }
   }
 
-  tags = {
-    Name = var.security_group_name
-  }
+  tags = var.security_group_tags
 }
 
 resource "aws_db_subnet_group" "this" {
   name       = var.subnet_group_name
   subnet_ids = var.protect_subnet_ids
 
-  tags = {
-    Name = var.subnet_group_name
-  }
+  tags = var.subnet_group_tags
 }
 
 resource "aws_db_option_group" "this" {
@@ -42,9 +38,7 @@ resource "aws_db_option_group" "this" {
   engine_name              = var.option_group_engine
   major_engine_version     = var.option_group_engine_version
 
-  tags = {
-    Name = var.option_group_name
-  }
+  tags = var.option_group_tags
 }
 
 resource "aws_db_parameter_group" "this" {
@@ -52,9 +46,7 @@ resource "aws_db_parameter_group" "this" {
   description = var.parameter_group_name
   family      = var.parameter_group_family
 
-  tags = {
-    Name = var.parameter_group_name
-  }
+  tags = var.parameter_group_tags
 }
 
 resource "aws_db_instance" "this" {
@@ -77,7 +69,5 @@ resource "aws_db_instance" "this" {
   parameter_group_name   = aws_db_parameter_group.this.name
   vpc_security_group_ids = [aws_security_group.this.id]
 
-  tags = {
-    Name = var.name
-  }
+  tags = var.instance_tags
 }

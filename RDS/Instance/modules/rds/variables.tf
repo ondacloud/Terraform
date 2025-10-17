@@ -10,6 +10,10 @@ variable "name" {
   type = string
 }
 
+variable "instance_tags" {
+  type = map(string)
+}
+
 variable "class" {
   type = string
 }
@@ -66,6 +70,10 @@ variable "subnet_group_name" {
   type = string
 }
 
+variable "subnet_group_tags" {
+  type = map(string)
+}
+
 variable "option_group_name" {
   type = string
 }
@@ -78,6 +86,10 @@ variable "option_group_engine_version" {
   type = string
 }
 
+variable "option_group_tags" {
+  type = map(string)
+}
+
 variable "parameter_group_name" {
   type = string
 }
@@ -86,8 +98,16 @@ variable "parameter_group_family" {
   type = string
 }
 
+variable "parameter_group_tags" {
+  type = map(string)
+}
+
 variable "security_group_name" {
   type = string
+}
+
+variable "security_group_tags" {
+  type = map(string)
 }
 
 variable "ingress_ports" {

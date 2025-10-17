@@ -76,6 +76,10 @@ locals {
     "${local.parameter}-db-cluster" = {
       vpc_name                        = "${local.parameter}-vpc"
 
+      rds_cluster_tags = {
+        Name = "${local.parameter}-db-cluster"
+      }
+
       db_name                         = "${local.parameter}"
       cw_logs_exports                 = ["audit", "error", "general", "slowquery"]
       engine                          = "aurora-mysql"
@@ -94,16 +98,37 @@ locals {
       instance_count                  = 1
       instance_class                  = "db.serverless"
       instance_engine                 = "aurora-mysql"
+      instance_tags                  = {
+        Name = "${local.parameter}-db-instance-1"
+      }
 
       subnet_group_name               = "${local.parameter}-db-sg"
+      subnet_group_tags               = {
+        Name = "${local.parameter}-db-sg"
+      }
 
-      cluster_parmeter_group_name     = "${local.parameter}-db-cpg"
-      cluster_parmeter_group_family   = "aurora-mysql8.0"
+      cluster_parameter_group_name     = "${local.parameter}-db-cpg"
+      cluster_parameter_group_family   = "aurora-mysql8.0"
+      parameters = [
+        {
+          name  = "time_zone"
+          value = "Asia/Seoul"
+        }
+      ]
+      cluster_parameter_group_tags     = {
+        Name = "${local.parameter}-db-cpg"
+      }
 
       parameter_group_name            = "${local.parameter}-db-pg"
       parameter_group_family          = "aurora-mysql8.0"
+      parameter_group_tags            = {
+        Name = "${local.parameter}-db-pg"
+      }
 
       security_group_name             = "${local.parameter}-rds-sg"
+      security_group_tags             = {
+        Name = "${local.parameter}-rds-sg"
+      }
 
       ingress_ports = [
         { from_port = 3306, to_port = 3306, protocol = "tcp", cidr_block = "0.0.0.0/0"},
