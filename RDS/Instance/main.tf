@@ -66,11 +66,14 @@ module "secrets_manager" {
 
   name = each.value.name
 
-  secret_values = {
-    DB_USER     = module.rds[each.value.rds_name].rds_user_name
-    DB_PASSWORD = module.rds[each.value.rds_name].rds_user_password
-    DB_ADDRESS  = module.rds[each.value.rds_name].rds_address
-    DB_PORT     = module.rds[each.value.rds_name].rds_port
-    DB_NAME     = module.rds[each.value.rds_name].rds_db_name
-  }
+  secret_values = (
+    can(each.value.enable_values) ? {
+      DB_USER     = module.rds[each.value.rds_name].rds_user_name
+      DB_PASSWORD = module.rds[each.value.rds_name].rds_user_password
+      DB_ADDRESS  = module.rds[each.value.rds_name].rds_address
+      DB_PORT     = module.rds[each.value.rds_name].rds_port
+      DB_NAME     = module.rds[each.value.rds_name].rds_db_name
+    }
+    : {}
+  )
 }
