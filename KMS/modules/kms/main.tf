@@ -2,9 +2,7 @@ resource "aws_kms_key" "this" {
   key_usage               = var.key_usage
   deletion_window_in_days = var.deletion_window_in_days
 
-  tags = {
-    Name = var.name
-  }
+  tags = var.tags
 }
 
 resource "aws_kms_alias" "this" {
