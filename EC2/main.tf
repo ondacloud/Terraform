@@ -26,7 +26,6 @@ module "ec2" {
   subnet_id             = module.vpc[each.value.vpc_name].subnet_ids[each.value.subnet_name]
   name                  = each.key
 
-  security_group_name   = each.value.security_group_name
   instance_type         = each.value.instance_type
   userdata              = each.value.userdata
   instance_tags         = each.value.instance_tags
@@ -35,6 +34,10 @@ module "ec2" {
   enable_eip            = each.value.enable_eip
   eip_tags              = each.value.eip_tags
 
+  root_block_device     = each.value.root_block_device
+
+  security_group_name   = each.value.security_group_name
+  security_group_tags   = each.value.security_group_tags
   ingress_ports         = each.value.ingress_ports
   egress_ports          = each.value.egress_ports
 

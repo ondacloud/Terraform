@@ -70,7 +70,6 @@ locals {
         Name = "${local.parameter}-bastion"
       }
       
-      security_group_name     = "${local.parameter}-ec2-sg"
       instance_type           = "t2.micro"
       userdata                = "/bastion/userdata.sh"
       
@@ -78,6 +77,18 @@ locals {
       enable_eip              = true
       eip_tags = {
         Name = "${local.parameter}-bastion-eip"
+      }
+
+      root_block_device = {
+        volume_size           = 10
+        volume_type           = "gp3"
+        delete_on_termination = true
+      }
+
+
+      security_group_name     = "${local.parameter}-ec2-sg"
+      security_group_tags = {
+        Name = "${local.parameter}-ec2-sg"
       }
 
       ingress_ports = [

@@ -13,10 +13,6 @@ variable "instance_tags" {
   type = map(string)
 }
 
-variable "security_group_name" {
-  type  = string
-}
-
 variable "instance_type" {
   type  = string
 }
@@ -34,6 +30,22 @@ variable "enable_eip" {
 }
 
 variable "eip_tags" {
+  type = map(string)
+}
+
+variable "root_block_device" {
+  type = object({
+    volume_size = number
+    volume_type = string
+    delete_on_termination = bool
+  })
+}
+
+variable "security_group_name" {
+  type  = string
+}
+
+variable "security_group_tags" {
   type = map(string)
 }
 
