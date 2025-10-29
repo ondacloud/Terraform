@@ -25,14 +25,10 @@ resource "aws_instance" "this" {
   associate_public_ip_address = var.enable_public_ip
   iam_instance_profile        = var.enable_create_iam_role ? aws_iam_instance_profile.this[0].name : null
 
-  dynamic "root_block_device" {
-    for_each = var.root_block_device
-    content {
-      volume_size           = root_block_device.value.volume_size
-      volume_type           = root_block_device.value.volume_type
-      delete_on_termination = root_block_device.value.delete_on_termination
-    }
-    
+  root_block_device {
+    volume_size           = var.root_block_device.volume_size
+    volume_type           = var.root_block_device.volume_type
+    delete_on_termination = var.root_block_device.delete_on_termination
   }
 
   user_data = file("${path.module}/../../src/${var.userdata}")
