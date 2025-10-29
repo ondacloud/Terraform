@@ -36,5 +36,5 @@ module "nlb" {
 
   enable_attach_target             = each.value.enable_attach_target
   targets                          = each.value.targets
-  # ec2_info                         = {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id}
+  # ec2_info                         = each.value.enable_attach_target ? {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id} : {}
 }
