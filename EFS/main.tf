@@ -40,8 +40,8 @@ module "efs" {
   tags                            = each.value.tags
   performance_mode                = each.value.performance_mode
   encrypted                       = each.value.encrypted
-  kms_key_id                      = module.kms[each.value.kms_key_name].kms_arn
-  #    = null
+  # kms_key_id                      = each.value.encrypted ? module.kms[each.value.kms_key_name].kms_arn : each.value.encrypted
+  kms_key_id                      = null
   provisioned_throughput_in_mibps = each.value.provisioned_throughput_in_mibps
   throughput_mode                 = each.value.throughput_mode
   enable_backup_policy            = each.value.enable_backup_policy

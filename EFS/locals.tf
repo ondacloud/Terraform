@@ -88,7 +88,7 @@ locals {
       }
 
       performance_mode                = "generalPurpose"
-      encrypted                       = true
+      encrypted                       = false
       kms_key_name                    = "${local.parameter}/efs/kms"
       throughput_mode                 = "bursting" # provisioned
       provisioned_throughput_in_mibps = 256
