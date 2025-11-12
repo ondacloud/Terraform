@@ -71,7 +71,7 @@ locals {
       }
       
       instance_type           = "t2.micro"
-      userdata                = "/bastion/userdata.sh"
+      userdata                = "/ec2/bastion/userdata.sh"
       
       enable_public_ip        = true
       enable_eip              = true
