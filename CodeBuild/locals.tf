@@ -100,7 +100,6 @@ locals {
           conditions = []
         }
       ]
-
     }
   }
 }
