@@ -6,10 +6,6 @@ variable "user_tags" {
   type    = map(string)
 }
 
-variable "service_name" {
-  type = string
-}
-
 variable "statements" {
   type = list(object({
     sid        = optional(string, null)

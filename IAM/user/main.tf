@@ -5,7 +5,6 @@ module "iam" {
 
   user_name             = each.key
   user_tags             = each.value.user_tags
-  service_name          = each.value.service_name
   statements            = each.value.statements
   enable_inline_policy  = each.value.enable_inline_policy
   inline_policy_name    = each.value.inline_policy_name

@@ -6,7 +6,6 @@ locals {
 
       user_name = "iam-group"
       user_tags = {Name = "iam-user"}
-      service_name = "iam"
 
       statements = [
         {

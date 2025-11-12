@@ -2,7 +2,6 @@ locals {
   iams = {
     "iam-user" = {
       user_tags = {Name = "iam-user"}
-      service_name = "iam"
 
       statements = [
         {
