@@ -71,7 +71,8 @@ module "secrets_manager" {
 
   for_each = local.secrets_managers
 
-  name = each.value.name
+  name = each.key
+  tags = each.value.tags
 
   secret_values = (
     can(each.value.enable_values) ? {

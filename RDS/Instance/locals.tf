@@ -130,8 +130,11 @@ locals {
 
 locals {
   secrets_managers = {
-    rds = {
-      name          = "${local.parameter}-rds-secrets"
+    "${local.parameter}-rds-secrets" = {
+      tags = {
+        Name = "${local.parameter}-rds-secrets"
+      }
+      
       rds_name      = "${local.parameter}-db-instance"
       enable_values = false
     }

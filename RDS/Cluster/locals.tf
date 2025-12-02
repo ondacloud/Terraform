@@ -140,9 +140,12 @@ locals {
 
 locals {
   secrets_managers = {
-    rds = {
+    "${local.parameter}-rds-secrets" = {
+      tags = {
+        Name = "${local.parameter}-rds-secrets"
+      }
+
       enable_values = true
-      name          = "${local.parameter}-rds-secrets"
       rds_name      = "${local.parameter}-db-cluster"
     }
   }
