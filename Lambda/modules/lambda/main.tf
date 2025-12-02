@@ -13,6 +13,8 @@ resource "aws_iam_role" "this" {
       }
     ]
   })
+
+  tags = var.iam_role_tags
 }
 
 resource "aws_iam_role_policy_attachment" "this" {

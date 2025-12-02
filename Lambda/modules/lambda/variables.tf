@@ -34,6 +34,10 @@ variable "iam_role_name" {
   type  = string
 }
 
+variable "iam_role_tags" {
+  type = map(string)
+}
+
 variable "iam_policies" {
   type  = list(string)
 }

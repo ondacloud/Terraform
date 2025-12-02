@@ -16,5 +16,6 @@ module "lambda" {
   enable_upload_zip  = each.value.enable_upload_zip
   
   iam_role_name      = each.value.iam_role_name
+  iam_role_tags      = each.value.iam_role_tags
   iam_policies       = each.value.iam_policies
 }

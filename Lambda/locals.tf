@@ -27,6 +27,7 @@ locals {
       publish            = false
 
       iam_role_name      = "${local.parameter}-lambda-role"
+      iam_role_tags      = {Name = "${local.parameter}-lambda-role"}
       iam_policies       = ["arn:aws:iam::aws:policy/AdministratorAccess"]
     }
   }
