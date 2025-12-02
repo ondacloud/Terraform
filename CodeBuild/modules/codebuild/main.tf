@@ -38,6 +38,8 @@ resource "aws_iam_role" "this" {
       Principal = { Service = "codebuild.amazonaws.com" }
     }]
   })
+
+  tags = var.iam_role_tags
 }
 
 data "aws_iam_policy_document" "this" {

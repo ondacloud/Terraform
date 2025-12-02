@@ -86,10 +86,10 @@ locals {
       mount_point        = "/mnt/efs"
 
       enable_iam_role = true
-      role_name   = "${local.parameter}-build-role"
-      role_tags   = {Name = "${local.parameter}-build-role"}
-      policy_name = "${local.parameter}-policy"
-      policy_tags = {Name = "${local.parameter}-build-policy"}
+      iam_role_name   = "${local.parameter}-build-role"
+      iam_role_tags   = {Name = "${local.parameter}-build-role"}
+      iam_policy_name = "${local.parameter}-policy"
+      iam_policy_tags = {Name = "${local.parameter}-build-policy"}
       iam_role_arn = "arn:aws:iam::${data.aws_caller_identity.caller.account_id}:role/${local.parameter}-build-role"
 
       statements = [

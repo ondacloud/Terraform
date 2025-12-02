@@ -51,11 +51,11 @@ module "codebuild" {
   # ] : []
   file_system_locations             = null
 
-  iam_role_name                     = each.value.role_name
-  role_tags                         = each.value.role_tags
+  iam_role_name                     = each.value.iam_role_name
+  iam_role_tags                     = each.value.iam_role_tags
   iam_role_arn                      = each.value.iam_role_arn
   statements                        = each.value.statements
   enable_iam_role                   = each.value.enable_iam_role
-  policy_name                       = each.value.policy_name
-  policy_tags                       = each.value.policy_tags
+  policy_name                       = each.value.iam_policy_name
+  policy_tags                       = each.value.iam_policy_tags
 }
