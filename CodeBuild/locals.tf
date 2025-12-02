@@ -1,12 +1,5 @@
 locals {
   parameter = "demo"
-
-  az_override  = ["a", "c"]
-
-  azs = [
-    for az in data.aws_availability_zones.az.names :
-    az if contains(local.az_override, substr(az, -1, 1))
-  ]
 }
 
 locals {
