@@ -108,6 +108,7 @@ locals {
 
       enable_create_iam_role = true
       iam_role_name         = "${local.parameter}-bastion-role"
+      iam_role_tags         = {Name = "${local.parameter}-bastion-role"}
       instance_profile_name = "${local.parameter}-bastion-profile"
       iam_policies          = ["arn:aws:iam::aws:policy/AdministratorAccess"]
     },

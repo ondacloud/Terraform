@@ -75,6 +75,8 @@ resource "aws_iam_role" "this" {
       Principal = { Service = "ec2.amazonaws.com" }
     }]
   })
+
+  tags = var.instance_tags
 }
 
 resource "aws_iam_role_policy_attachment" "this" {

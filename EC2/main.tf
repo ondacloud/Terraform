@@ -47,6 +47,7 @@ module "ec2" {
 
   enable_create_iam_role = each.value.enable_create_iam_role
   iam_role_name         = each.value.iam_role_name
+  iam_role_tags         = each.value.iam_role_tags
   instance_profile_name = each.value.instance_profile_name
   iam_policies          = each.value.iam_policies
 }
