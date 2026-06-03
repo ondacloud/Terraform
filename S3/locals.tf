@@ -38,7 +38,6 @@ locals {
       enable_objects    = true
       objects = [
         {key = "static/index.html", source = "s3/index.html"},
-        {key = "static/main.jpeg", source = "s3/main.jpeg"}
       ]
 
       enable_bucket_kms = true
