@@ -33,8 +33,8 @@ locals {
 
 locals {
   cloudwatch_logs = {
-    "/${local.parameter}/app/log" = {
-      tags = {Name = "/${local.parameter}/app/log"}
+    "/${local.parameter}/log" = {
+      tags = {Name = "/${local.parameter}/log"}
 
       enable_kms = true
       kms_key_name = "${local.parameter}/kms/cw"
