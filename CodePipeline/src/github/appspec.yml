@@ -1,0 +1,36 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /opt/scripts/
+
+permissions:
+  - object: /opt/scripts/
+    owner: ec2-user
+    group: ec2-user
+    mode: 755
+    type:
+      - directory
+      - file
+
+hooks:
+  BeforeInstall:
+    - location: scripts/BeforeInstall.sh
+      timeout: 100
+      runas: ec2-user
+
+  AfterInstall:
+    - location: scripts/AfterInstall.sh
+      timeout: 100
+      runas: ec2-user
+
+  ApplicationStart:
+    - location: scripts/ApplicationStart.sh
+      timeout: 100
+      runas: ec2-user
+
+  ApplicationStop:
+    - location: scripts/ApplicationStop.sh
+      timeout: 60
+      runas: ec2-user
