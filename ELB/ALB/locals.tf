@@ -50,7 +50,6 @@ locals {
     "${local.parameter}-alb" = {
       vpc_name              = "${local.parameter}-vpc"
 
-
       alb_tags              = {Name = "${local.parameter}-alb"}
       internal              = true
       port                  = 80
@@ -154,7 +153,7 @@ locals {
         },
       ]
 
-      enable_attach_target      = true
+      enable_attach_target      = false
       targets = [
         {
           type                  = "ec2"

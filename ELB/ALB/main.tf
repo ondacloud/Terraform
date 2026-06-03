@@ -44,5 +44,5 @@ module "alb" {
 
   enable_attach_target        = each.value.enable_attach_target
   targets                     = each.value.targets
-  target_info                 = each.value.enable_attach_target ? {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id} : {}
+  # target_info                 = each.value.enable_attach_target ? {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id} : {}
 }
