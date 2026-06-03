@@ -1,0 +1,8 @@
+{
+    "method": "$context.httpMethod",
+    "body": {
+        "name": $input.json('$.name'),
+        "age": $input.json('$.age'),
+        "country": $input.json('$.country')
+    }
+}
