@@ -8,4 +8,5 @@ module "kms" {
   alias_name              = each.value.alias_name
   key_usage               = each.value.key_usage
   deletion_window_in_days = each.value.deletion_window_in_days
+  statements              = each.value.statements
 }
