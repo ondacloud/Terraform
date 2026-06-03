@@ -62,7 +62,7 @@ resource "aws_lb_target_group" "this" {
     matcher             = each.value.health_check.matcher
   }
 
-  tags = try(each.value.tags, {})
+  tags = each.value.tags
 }
 
 resource "aws_lb_listener" "this" {
