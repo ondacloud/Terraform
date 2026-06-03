@@ -49,3 +49,42 @@ variable "source_file_path" {
 variable "output_file_path" {
   type = string
 }
+
+variable "enable_vpc_config" {
+  type = bool
+  default = false
+}
+
+variable "vpc_id" {
+  type = string
+}
+
+variable "subnet_ids" {
+  type = list(string)
+}
+
+variable "security_group_name" {
+  type  = string
+}
+
+variable "security_group_tags" {
+  type = map(string)
+}
+
+variable "ingress_ports" {
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_block  = string
+  }))
+}
+
+variable "egress_ports" {
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_block  = string
+  }))
+}
