@@ -26,8 +26,17 @@ variable "protocol" {
   type = string
 }
 
-variable "listener_target_groups" {
-  type = list(string)
+variable "default_action" {
+  type = any
+}
+
+variable "enable_listener_rules" {
+  type = bool
+  default = false
+}
+
+variable "listener_rules" {
+  type = any
 }
 
 variable "target_groups" {
@@ -37,6 +46,7 @@ variable "target_groups" {
     protocol             = string
     target_type          = string
     deregistration_delay = number
+    tags                 = optional(map(string))
 
     health_check = object({
       protocol            = string
@@ -61,19 +71,23 @@ variable "security_group_tags" {
 
 variable "ingress_ports" {
   type = list(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_block  = string
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_block       = optional(string)
+    prefix_list_id   = optional(string)
+    security_groups = optional(list(string))
   }))
 }
 
 variable "egress_ports" {
   type = list(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_block  = string
+    from_port        = number
+    to_port          = number
+    protocol         = string
+    cidr_block       = optional(string)
+    prefix_list_id   = optional(string)
+    security_groups = optional(list(string))
   }))
 }
 
@@ -81,7 +95,7 @@ variable "enable_attach_target" {
   type = bool
 }
 
-variable "ec2_info" {
+variable "target_info" {
   type = any
   default = null  
 }

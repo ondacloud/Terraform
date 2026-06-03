@@ -30,8 +30,12 @@ module "alb" {
   internal                    = each.value.internal
   port                        = each.value.port
   protocol                    = each.value.protocol
+
+  default_action              = each.value.default_action
+  enable_listener_rules       = each.value.enable_listener_rules
+  listener_rules              = each.value.listener_rules
+
   target_groups               = each.value.target_groups
-  listener_target_groups      = each.value.listener_target_groups
 
   security_group_name         = each.value.security_group_name
   security_group_tags         = each.value.security_group_tags
@@ -40,5 +44,5 @@ module "alb" {
 
   enable_attach_target        = each.value.enable_attach_target
   targets                     = each.value.targets
-  # ec2_info                    = each.value.enable_attach_target ? {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id} : {}
+  target_info                 = each.value.enable_attach_target ? {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id} : {}
 }
