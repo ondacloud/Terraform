@@ -31,10 +31,13 @@ module "nlb" {
   enable_cross_zone_load_balancing = each.value.enable_cross_zone_load_balancing
   port                             = each.value.port
   protocol                         = each.value.protocol
-  target_groups                    = each.value.target_groups
-  listener_target_groups           = each.value.listener_target_groups
 
-  enable_attach_target             = each.value.enable_attach_target
-  targets                          = each.value.targets
-  # ec2_info                         = each.value.enable_attach_target ? {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id} : {}
+  default_action              = each.value.default_action
+  enable_listener_rules       = each.value.enable_listener_rules
+  listener_rules              = each.value.listener_rules
+  
+  target_groups               = each.value.target_groups
+  enable_attach_target        = each.value.enable_attach_target
+  targets                     = each.value.targets
+  # target_info                 = each.value.enable_attach_target ? {for t in each.value.targets : t.target_name => module.ec2[t.target_name].ec2_instance_id} : {}
 }

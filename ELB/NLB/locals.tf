@@ -65,28 +65,100 @@ locals {
     "${local.parameter}-nlb" = {
       vpc_name                  = "${local.parameter}-vpc"
 
-      nlb_tags = {
-        Name = "${local.parameter}-nlb"
-      }
+      nlb_tags = {Name = "${local.parameter}-nlb"}
+
       internal                         = true
       enable_cross_zone_load_balancing = true
       port                             = 80
       protocol                         = "TCP"
-      listener_target_groups           = "${local.parameter}-nlb-tg"
+
+      default_action = [
+        {
+          enabled = true
+          type    = "forward"
+          forward_config = {
+            target_groups = [
+              { name = "${local.parameter}-nlb-tg", weight = 100},
+            ]
+          }
+        },
+        {
+          enabled = false
+          type    = "fixed-response"
+          fixed_response_config = {
+            content_type = "text/plain"
+            status_code  = 404
+            message_body = "Not Found"
+          }
+        }
+      ]
+
+      enable_listener_rules = false
+      listener_rules = [
+        {
+          name = "path-fixed-response"
+          priority = 1
+          condition = [
+            {
+              field  = "path-pattern"
+              values = ["/healthcheck"]
+            },
+          ]
+          action = [
+            {
+              type = "fixed-response",
+              config = {
+                content_type = "text/plain",
+                status_code  = 404,
+                message_body = "Restrict access to api"
+              }
+            }
+          ]
+        },
+        {
+          name = "path-forward"
+          priority = 2
+          condition = [
+            {field = "path-pattern", values = ["/version"]},
+          ]
+          action = {
+            type = "forward"
+            config = {
+              target_groups = [
+                {name = "${local.parameter}-nlb-tg", weight = 100},
+              ]
+            }
+          }
+        },
+        {
+          name = "path-and-header-forward"
+          priority = 3
+          condition = [
+            {field = "path-pattern", values = ["/version"]},
+            {field = "http-header", http_header_config = {name = "version", values = ["v1"]}}
+          ]
+          action = {
+            type = "forward"
+            config = {
+              target_groups = [
+                {name = "${local.parameter}-nlb-tg", weight = 100},
+              ]
+            }
+          }
+        },
+      ]
 
       target_groups = [
         {
-          name                  = "${local.parameter}-nlb-tg"
-          port                  = 80
-          protocol              = "TCP"
-          target_type           = "instance" # instance or ip or lambda or alb
+          name                 = "${local.parameter}-nlb-tg"
+          port                 = 80
+          protocol             = "HTTP"
+          target_type          = "instance" # instance or ip or lambda or alb
           deregistration_delay  = 30
-          tags = {
-            Name = "${local.parameter}-nlb-tg"
-          }
+          tags                 = { Name = "${local.parameter}-nlb-tg" }
 
           health_check = {
-            protocol            = "TCP"
+            protocol            = "HTTP"
             path                = "/"
             port                = 80
             interval            = 5
@@ -95,7 +167,7 @@ locals {
             unhealthy_threshold = 2
             matcher             = "200-399"
           }
-        }
+        },
       ]
 
       enable_attach_target      = false
@@ -103,7 +175,7 @@ locals {
         {
           type                  = "ec2"
           target_group_name     = "${local.parameter}-nlb-tg"
-          target_name           = "${local.parameter}-bastion"
+          target_name           = "${local.parameter}-app"
           target_port           = 80
         },
       ]

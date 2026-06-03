@@ -30,8 +30,17 @@ variable "enable_cross_zone_load_balancing" {
   type = bool
 }
 
-variable "listener_target_groups" {
-  type = string
+variable "default_action" {
+  type = any
+}
+
+variable "enable_listener_rules" {
+  type = bool
+  default = false
+}
+
+variable "listener_rules" {
+  type = any
 }
 
 variable "target_groups" {
@@ -41,6 +50,7 @@ variable "target_groups" {
     protocol             = string
     target_type          = string
     deregistration_delay = number
+    tags                 = optional(map(string))
 
     health_check = object({
       protocol            = string
@@ -59,7 +69,7 @@ variable "enable_attach_target" {
   type = bool
 }
 
-variable "ec2_info" {
+variable "target_info" {
   type = any
   default = null  
 }
