@@ -12,15 +12,15 @@ module "kms" {
 }
 
 module "cloudwatch_logs" {
-  depends_on = [ module.kms ]
-
   source = "./modules/cloudwatch_logs"
 
   for_each = local.cloudwatch_logs
 
   name       = each.key
   tags       = each.value.tags
-  enable_kms = each.value.enable_kms
-  kms_key_id = each.value.enable_kms ? module.kms[each.value.kms_key_name].kms_arn : null
-  # kms_key_id = null
+  # kms_key_id = each.value.enable_kms ? module.kms[each.value.kms_key_name].kms_arn : null
+  kms_key_id = null
+
+  create_log_stream = each.value.create_log_stream
+  log_stream_names = each.value.log_stream_names
 }

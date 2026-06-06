@@ -6,11 +6,15 @@ variable "tags" {
   type = map(string)
 }
 
-variable "enable_kms" {
+variable "kms_key_id" {
+  type = string
+}
+
+variable "create_log_stream" {
   type = bool
   default = false
 }
 
-variable "kms_key_id" {
-  type = string
+variable "log_stream_names" {
+  type = list(string)
 }
