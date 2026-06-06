@@ -61,7 +61,6 @@ locals {
   }
 }
 
-
 locals {
   client_vpns = {
     "${local.parameter}-client-vpn" = {
